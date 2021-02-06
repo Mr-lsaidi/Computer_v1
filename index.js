@@ -1,4 +1,5 @@
 const tools = require('./tools')
+const solve = require('./solve')
 
 var args = process.argv.slice(2);
 
@@ -13,30 +14,9 @@ var states = {
     sign: false,
     equoal: false,
     eq_params: [0,0,0],
+    discriminant: null,
+    polynomial_degree: 0,
     error: false
-}
-
-function Reduced(value){
-    res = ""
-    if (value < 0)
-        res = ' - '+value.toString().slice(1)
-    else
-        res = ' + ' +value.toString()
-    return res
-}
-
-function special_case(states)
-{
-    console.log(states.eq_params);
-    if (states.eq_params[1] == 0 && states.eq_params[2] == 0)
-    {
-        if (states.eq_params[0])
-            console.log("No solution possible");
-        else
-            console.log("The solution is |R");
-        return true
-    }
-    return false
 }
 
 if (args.length === 1)
@@ -48,7 +28,7 @@ if (args.length === 1)
         //split the equoation
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
         let equoation = tools.spicial_case(string, spicial_case_vals);
-
+        //console.log(equoation)
         if (equoation){
             for (let i = 0; i < equoation.length && !states.error; i++) {
                 const element = equoation[i]
@@ -62,9 +42,11 @@ if (args.length === 1)
             }
             if (!states.error){
                 tools.GetEqElements('last', states)
-                if (!special_case(states)){
-                    console.log(`Reduced form: `+`${states.eq_params[0] ? `${states.eq_params[0]} * X ^ 0`: "" }`+`${states.eq_params[1] ? `${Reduced(states.eq_params[1])} * X ^ 1`: "" }`+`${states.eq_params[2] ? `${Reduced(states.eq_params[2])} * X ^ 2`: "" }`+" = 0");
+                if (!solve.SpecialCaseSolve(states)){
+                    console.log(`Reduced form: `+`${states.eq_params[0] ? `${states.eq_params[0]} * X ^ 0`: "" }`+`${states.eq_params[1] ? `${tools.Reduced(states.eq_params[1])} * X ^ 1`: "" }`+`${states.eq_params[2] ? `${tools.Reduced(states.eq_params[2])} * X ^ 2`: "" }`+" = 0");
                     console.log(states.eq_params);
+                    solve.discriminant(states)
+                    solve.QuadraticForm(states)
                 }
             }
         }

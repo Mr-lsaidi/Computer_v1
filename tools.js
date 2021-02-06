@@ -34,6 +34,16 @@ function spicial_case(equoation, spicial_case_vals) {
                 temp[i + 2] = temp[i + 1] + temp[i + 2]
                 temp.splice(i + 1, 1)
             }
+            else if (temp[i + 1]  === '+'){
+                console.error('syntax error in equoation arg: ', "'"+element.trim()+"'");
+                return
+            }
+        }
+        else if (element[element.length - 1] === '-'){
+            if (temp[i + 1]  === '-' || temp[i + 1]  === '+'){
+                console.error('syntax error in equoation arg: ', "'"+element.trim()+"'");
+                return
+            }
         }
         else if (element[element.length - 1] === '*'){
             if (temp[i + 1]  === '-'){
@@ -45,7 +55,7 @@ function spicial_case(equoation, spicial_case_vals) {
         else if (element[element.length - 1] === '='){
             if (spicial_case_vals.equoal){
                 console.log("error double =");
-                return -1
+                return
             }
             spicial_case_vals.equoal = true
             spicial_case_vals.FirstNegativeEq = false
@@ -58,6 +68,7 @@ function spicial_case(equoation, spicial_case_vals) {
     }
     return (temp)
 }
+
 function GetEqElements(eq_arg, states) {
     if (eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?X[\ ]?\^[\ ]?(\d+)[\ ]?$/g)){
         const rgx_result = eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?X[\ ]?\^[\ ]?(\d+)[\ ]?$/);
@@ -98,20 +109,22 @@ function GetEqElements(eq_arg, states) {
         const rgx_result = eq_arg.match(/^[\ ]?\+[\ ]?$/);        
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1) * (states.equoal ? -1 : 1)
         states.sign = false
+        console.log('+', states);
     }
     else if (eq_arg.match(/^[\ ]?\=[\ ]?$/g)){
         states.equoal = true
         const rgx_result = eq_arg.match(/^[\ ]?\=[\ ]?$/);
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)
         states.sign = false
+        console.log('=',states);
     }
     else if (eq_arg.match(/^[\ ]?\-[\ ]?$/g)){
         const rgx_result = eq_arg.match(/^[\ ]?\-[\ ]?$/);
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
         states.sign = true
+        console.log('-', states);
     }
     else if (eq_arg.match(/^last$/g)){
-        states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
         states.sign = false
     }
     else
@@ -120,10 +133,24 @@ function GetEqElements(eq_arg, states) {
         console.log("The polynomial degree is stricly greater than 2, I can't solve.");
         states.error = true
     }
+    if (states.polynomial_degree < states.degree)
+        states.polynomial_degree = states.degree
+
+        
+}
+
+function Reduced(value){
+    res = ""
+    if (value < 0)
+        res = ' - '+value.toString().slice(1)
+    else
+        res = ' + ' +value.toString()
+    return res
 }
 
 module.exports = {
     parsing,
     spicial_case,
     GetEqElements,
+    Reduced,
 }
