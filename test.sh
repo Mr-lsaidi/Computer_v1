@@ -71,11 +71,23 @@ echo -e "-1.0 * X^1 - 2 * X^2 = -15 * X^0 - 0.1 * X^0 -  1.25 * X^1 :" ;
 node index.js "-1.0 * X^1 - 2 * X^2 = -15 * X^0 - 0.1 * X^0 -  1.25 * X^1";
 echo "";
 
+echo -e "2 * X ^ 2 + 6 * X + 1 = 0 :" ;
+node index.js "2 * X ^ 2 + 6 * X + 1 = 0";
+echo "";
+
 ### Title
 echo -e "${INFOS}Degree 2: # Delta == 0: ${NC}"; echo "";
 # Delta == 0
 echo -e "4*X^2 + 1 = -4*X  :" ;
 node index.js "4*X^2 + 1 = -4*X ";
+echo "";
+
+echo -e "3 * X ^ 2 + 6 * X + 3 = 0 :" ;
+node index.js "3 * X ^ 2 + 6 * X + 3 = 0";
+echo "";
+
+echo -e "3 * X ^ 2 + 6 * X + 3 = 0 :" ;
+node index.js "3 * X ^ 2 + 6 * X + 3 = 0";
 echo "";
 
 ### Title
