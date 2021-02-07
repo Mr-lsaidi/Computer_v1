@@ -85,20 +85,20 @@ function GetEqElements(eq_arg, states) {
         states.factor = 1
         states.degree = parseInt(rgx_result[1])
     }
-    else if (eq_arg.match(/^[\ ]?X[\ ]?$/g)){
-        const rgx_result = eq_arg.match(/^[\ ]?X[\ ]?$/);
-        states.factor = 1
-        states.degree = 1
-    }
     else if (eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?X[\ ]?$/g)){
         const rgx_result = eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?X[\ ]?$/);
         states.factor = parseFloat(rgx_result[1])
         states.degree = 1
     }
-    else if (eq_arg.match(/^[\ ]?X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9])+[\ ]?$/g)){
-        const rgx_result = eq_arg.match(/^[\ ]?X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9])+[\ ]?$/);
+    else if (eq_arg.match(/^[\ ]?X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/g)){
+        const rgx_result = eq_arg.match(/^[\ ]?X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/);
         states.factor = parseFloat(rgx_result[1])
-        states.degree = parseInt(1)
+        states.degree = 1
+    }
+    else if (eq_arg.match(/^[\ ]?X[\ ]?$/g)){
+        const rgx_result = eq_arg.match(/^[\ ]?X[\ ]?$/);
+        states.factor = 1
+        states.degree = 1
     }
     else if (eq_arg.match(/^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$/g)){
         const rgx_result = eq_arg.match(/^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$/);
@@ -109,23 +109,23 @@ function GetEqElements(eq_arg, states) {
         const rgx_result = eq_arg.match(/^[\ ]?\+[\ ]?$/);        
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1) * (states.equoal ? -1 : 1)
         states.sign = false
-        console.log('+', states);
+       // console.log('+', states);
     }
     else if (eq_arg.match(/^[\ ]?\=[\ ]?$/g)){
         states.equoal = true
         const rgx_result = eq_arg.match(/^[\ ]?\=[\ ]?$/);
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)
         states.sign = false
-        console.log('=',states);
+        //console.log('=',states);
     }
     else if (eq_arg.match(/^[\ ]?\-[\ ]?$/g)){
         const rgx_result = eq_arg.match(/^[\ ]?\-[\ ]?$/);
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
         states.sign = true
-        console.log('-', states);
+        //console.log('-', states);
     }
     else if (eq_arg.match(/^last$/g)){
-        states.sign = false
+        states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
     }
     else
         console.log("out");
@@ -135,8 +135,6 @@ function GetEqElements(eq_arg, states) {
     }
     if (states.polynomial_degree < states.degree)
         states.polynomial_degree = states.degree
-
-        
 }
 
 function Reduced(value){

@@ -44,7 +44,6 @@ if (args.length === 1)
                 tools.GetEqElements('last', states)
                 if (!solve.SpecialCaseSolve(states)){
                     console.log(`Reduced form: `+`${states.eq_params[0] ? `${states.eq_params[0]} * X ^ 0`: "" }`+`${states.eq_params[1] ? `${tools.Reduced(states.eq_params[1])} * X ^ 1`: "" }`+`${states.eq_params[2] ? `${tools.Reduced(states.eq_params[2])} * X ^ 2`: "" }`+" = 0");
-                    console.log(states.eq_params);
                     solve.discriminant(states)
                     solve.QuadraticForm(states)
                 }

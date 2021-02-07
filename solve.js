@@ -43,8 +43,8 @@ function QuadraticForm(states)
         else if (states.discriminant > 0)
         {
             console.log("Solution is reel :");
-            const x1 = ((b * -1) - (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
-            const x2 = ((b * -1) + (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
+            const x1 = ((b * -1) + (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
+            const x2 = ((b * -1) - (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
             console.log(`x1 = ${x1}\nx2 = ${x2}`);
         }
         else if (states.discriminant < 0)

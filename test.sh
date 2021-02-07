@@ -36,16 +36,16 @@ echo "";
 ### Title
 echo -e "${INFOS}Degree 1: 1 solution: ${NC}"; echo "";
 ## Degree 1: 1 solution
-echo -e "1 * X^1 -  -4 * X^1 - -4 * X^0 = -1 * X^0 + +1 * X^0 + -5 * X^0 :" ;
-node index.js "1 * X^1 -  -4 * X^1 - -4 * X^0 = -1 * X^0 + +1 * X^0 + -5 * X^0";
+echo -e "1 * X^1 -4 * X^1  -4 * X^0 = -1 * X^0 +1 * X^0 + -5 * X^0 :" ;
+node index.js "1 * X^1  -4 * X^1  -4 * X^0 = -1 * X^0  +1 * X^0 + -5 * X^0";
 echo "";
 
 echo -e "-0.2 * X^1 +  -0 * X^0 = -0.2 * X^0 - 0.1 * X^0 -  0.1 * X^1 :" ;
 node index.js "-0.2 * X^1 +  -0 * X^0 = -0.2 * X^0 - 0.1 * X^0 -  0.1 * X^1";
 echo "";
 
-echo -e "-0.2 * X^1 - +0 * X^0 = -0.2 * X^0 - 0.1 * X^0 -  0.1 * X^1 :" ;
-node index.js "-0.2 * X^1 - +0 * X^0 = -0.2 * X^0 - 0.1 * X^0 -  0.1 * X^1";
+echo -e "-0.2 * X^1 - 0 * X^0 = -0.2 * X^0 - 0.1 * X^0 -  0.1 * X^1 :" ;
+node index.js "-0.2 * X^1 - 0 * X^0 = -0.2 * X^0 - 0.1 * X^0 -  0.1 * X^1";
 echo "";
 
 echo -e "-1 * X^1  = -0.2 * X^0 :" ;
@@ -55,17 +55,28 @@ echo "";
 ### Title
 echo -e "${INFOS}Degree 2: # Delta > 0: ${NC}"; echo "";
 # Delta > 0
-echo -e "-1.0 * X^1 - +2 * X^2 = -1.0 * X^1 + -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1 :" ;
-node index.js "-1.0 * X^1 - +2 * X^2 = -1.0 * X^1 + -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1";
+echo -e "-1.0 * X^1 - 2 * X^2 = -1.0 * X^1 + -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1 :" ;
+node index.js "-1.0 * X^1 - 2 * X^2 = -1.0 * X^1 + -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1";
 echo "";
 
-echo -e "-1.0 * X^1 - +2 * X^2 = -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1 :" ;
-node index.js "-1.0 * X^1 - +2 * X^2 = -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1";
+echo -e "-1.0 * X^1 - 2 * X^2 = -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1 :" ;
+node index.js "-1.0 * X^1 - 2 * X^2 = -0.2 * X^0 - 0.1 * X^0 -  0.0 * X^1";
+echo "";
+
+echo -e "2* X ^ 2 - X - 6 = 0 :" ;
+node index.js "2* X ^ 2 - X - 6 = 0";
+echo "";
+
+echo -e "-1.0 * X^1 - 2 * X^2 = -15 * X^0 - 0.1 * X^0 -  1.25 * X^1 :" ;
+node index.js "-1.0 * X^1 - 2 * X^2 = -15 * X^0 - 0.1 * X^0 -  1.25 * X^1";
 echo "";
 
 ### Title
 echo -e "${INFOS}Degree 2: # Delta == 0: ${NC}"; echo "";
 # Delta == 0
+echo -e "4*X^2 + 1 = -4*X  :" ;
+node index.js "4*X^2 + 1 = -4*X ";
+echo "";
 
 ### Title
 echo -e "${INFOS}Degree 2: # Delta < 0: ${NC}"; echo "";
@@ -76,8 +87,8 @@ echo -e "${INFOS}Degree 2: # Delta < 0: ${NC}"; echo "";
 echo -e "${ORANGE}INCORRECT INPUT WITH GOOD FORMATTING${NC}"; echo "";
 
 ### Title
-echo -e "${INFOS}Incorrect :  Exponent > 2: ${NC}"; echo "";
-# Exponent > 2
+echo -e "${INFOS}Incorrect :  degree > 2: ${NC}"; echo "";
+# degree > 2
 echo -e "-1 * X^11  = 1 * X^11 :" ;
 node index.js "-1 * X^11  = 1 * X^11";
 echo "";
@@ -96,8 +107,8 @@ echo "";
 
 
 ### Title
-echo -e "${INFOS}Incorrect :  Exponent < 0: ${NC}"; echo "";
-# Exponent < 0
+echo -e "${INFOS}Incorrect :  degree < 0: ${NC}"; echo "";
+# DEGREE < 0
 echo -e "-1 * X^-2  = -0.2 * X^0 :" ;
 node index.js "-1 * X^-2  = -0.2 * X^0";
 echo "";
@@ -139,8 +150,8 @@ echo "";
 
 
 ### Title
-echo -e "${INFOS}W_Format : Float exponents: ${NC}"; echo "";
-# Float exponents:
+echo -e "${INFOS}W_Format : Float degree: ${NC}"; echo "";
+# Float degree:
 echo -e "-1 * X^2.0 = -0.2 * X^0 :" ;
 node index.js "-1 * X^2.0 = -0.2 * X^0";
 echo "";
@@ -155,15 +166,8 @@ echo "";
 
 
 ### Title
-echo -e "${INFOS}W_Format : {NB} * X^{EXPONENT}: ${NC}"; echo "";
-# Doesn't respect the directions : {NB} * X^{EXPONENT}
-echo -e "X+2=0:" ;
-node index.js "X+2=0";
-echo "";
+echo -e "${INFOS}W_Format : {NB}X ^ {NB}: ${NC}"; echo "";
 
-echo -e "X + 2=0:" ;
-node index.js "X + 2=0";
-echo "";
 
 echo -e "2X + 2=0:" ;
 node index.js "2X + 2=0";
