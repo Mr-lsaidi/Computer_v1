@@ -1,3 +1,5 @@
+const chalk = require("chalk")
+
 function parsing(eq_arg){
 
     //((^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)    =>   (X ^ 1)
@@ -35,13 +37,13 @@ function spicial_case(equoation, spicial_case_vals) {
                 temp.splice(i + 1, 1)
             }
             else if (temp[i + 1]  === '+'){
-                console.error('syntax error in equoation arg: ', "'"+element.trim()+"'");
+                console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
                 return
             }
         }
         else if (element[element.length - 1] === '-'){
             if (temp[i + 1]  === '-' || temp[i + 1]  === '+'){
-                console.error('syntax error in equoation arg: ', "'"+element.trim()+"'");
+                console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
                 return
             }
         }
@@ -54,7 +56,7 @@ function spicial_case(equoation, spicial_case_vals) {
         }
         else if (element[element.length - 1] === '='){
             if (spicial_case_vals.equoal){
-                console.log("error double =");
+                console.log(chalk.red("error double ="));
                 return
             }
             spicial_case_vals.equoal = true
@@ -63,7 +65,7 @@ function spicial_case(equoation, spicial_case_vals) {
         }
     }
     if (!spicial_case_vals.equoal){
-        console.log("no = in the equoation");
+        console.log(chalk.red("no = in the equoation"));
         return
     }
     return (temp)
@@ -130,20 +132,30 @@ function GetEqElements(eq_arg, states) {
     else
         console.log("out");
     if (states.degree > 2){
-        console.log("The polynomial degree is stricly greater than 2, I can't solve.");
+        console.log(chalk.dim("The polynomial degree is stricly greater than 2, I can't solve."));
         states.error = true
     }
     if (states.polynomial_degree < states.degree)
         states.polynomial_degree = states.degree
 }
 
-function Reduced(value){
-    res = ""
-    if (value < 0)
-        res = ' - '+value.toString().slice(1)
-    else
-        res = ' + ' +value.toString()
-    return res
+function Reduced(states){
+    let Reduced_form = []
+    Reduced_form.push(chalk.dim("Reduced form: "));
+    if (states.eq_params[0] != 0)
+        Reduced_form.push(`${states.eq_params[0]} * X^0`);
+    if (states.eq_params[1] != 0){
+        if (states.eq_params[1] >= 0 && states.eq_params[0] != 0)
+            Reduced_form.push('+')
+        Reduced_form.push(`${states.eq_params[1]} * X^1`)
+    }
+    if (states.eq_params[2] != 0){
+        if (states.eq_params[2] >= 0 && states.eq_params[2] != 0)
+            Reduced_form.push('+')
+        Reduced_form.push(`${states.eq_params[2]} * X^2`)
+    }
+    Reduced_form.push("= 0")
+    console.log(...Reduced_form);
 }
 
 module.exports = {

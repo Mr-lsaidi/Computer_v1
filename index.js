@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const tools = require('./tools')
 const solve = require('./solve')
 
@@ -36,14 +37,15 @@ if (args.length === 1)
                    tools.GetEqElements(element, states)
                 }
                 else{
-                    console.error('syntax error in equoation arg: ', "'"+element.trim()+"'");
+                    console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
                     return
                 }
             }
             if (!states.error){
                 tools.GetEqElements('last', states)
                 if (!solve.SpecialCaseSolve(states)){
-                    console.log(`Reduced form: `+`${states.eq_params[0] ? `${states.eq_params[0]} * X ^ 0`: "" }`+`${states.eq_params[1] ? `${tools.Reduced(states.eq_params[1])} * X ^ 1`: "" }`+`${states.eq_params[2] ? `${tools.Reduced(states.eq_params[2])} * X ^ 2`: "" }`+" = 0");
+                    tools.Reduced(states)
+                    console.log(chalk.magenta("Polynomial degree:"), states.polynomial_degree);
                     solve.discriminant(states)
                     solve.QuadraticForm(states)
                 }
@@ -51,7 +53,7 @@ if (args.length === 1)
         }
     }
     else
-        console.log("arg is empty")
+        console.log(chalk.red("arg is empty"))
 }
 else
-    console.log("error number of params")
+    console.log(chalk.yellow('error number of params, usage node . "EQOUATION"'))
