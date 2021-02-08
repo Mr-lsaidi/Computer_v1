@@ -156,6 +156,7 @@ function Reduced(states){
     }
     Reduced_form.push("= 0")
     console.log(...Reduced_form);
+    states.graph_hand = Reduced_form.slice(1).join(' ')
 }
 
 module.exports = {

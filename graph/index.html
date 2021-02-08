@@ -13,6 +13,31 @@
     <v-app>
       <v-main>
         <v-container>
+          <v-card>
+            <v-card-text>
+            <v-row justify='center' align='center' no-gutters dense>
+              <v-col cols='2' class="text-start primary--text">Reduced form</v-col>
+              <v-col cols='3' class="text-start primary--text">: {{ states.graph_hand }}</v-col>
+            </v-row>
+            <v-row justify='center' align='center' no-gutters dense >
+              <v-col cols='2'class="text-start primary--text"> Polynomial degree</v-col>
+              <v-col cols='3'class="text-start primary--text">: {{ states.polynomial_degree }}</v-col>
+            </v-row>
+            <v-row justify='center' align='center' no-gutters dense>
+              <v-col cols='2' class="text-start primary--text">discriminant </v-col>
+              <v-col cols='3' class="text-start primary--text">: {{ states.discriminant }}</v-col>
+            </v-row>
+            
+            <v-row justify='center' align='center' no-gutters dense class="text-center red--text">
+              <v-col cols='12'>Solution: {{ states.solution }}</v-col>
+            </v-row>
+          </v-card-text>
+          </v-card>
+          <v-card >
+            <v-card-title>
+              Function graph 
+            </v-card-title>
+            <v-card-text>
             <v-row justify='center' align='center'>
                 <v-col cols='4'>
                     <v-text-field
@@ -21,42 +46,65 @@
                         type='number'
                         step='0.5'
                         v-model="xMin"
-                        @change='plot()'
+                        @click='plot()'
+                        v-on:keyup.enter='plot()'
                     ></v-text-field>
                     <v-text-field
-                        label="Regular"
+                        label="xMax value"
                         outlined
                         type='number'
+                        v-model="xMax"
+                        @click='plot()'
+                        v-on:keyup.enter='plot()'
                     ></v-text-field>
                     <v-text-field
-                        label="Regular"
+                        label="yMin value"
                         outlined
                         type='number'
+                        v-model="yMin"
+                        @click='plot()'
+                        v-on:keyup.enter='plot()'
                     ></v-text-field>
                     <v-text-field
-                        label="Regular"
+                        label="yMax value"
                         outlined
                         type='number'
+                        v-model="yMax"
+                        @click='plot()'
+                        v-on:keyup.enter='plot()'
                     ></v-text-field>
-                    <v-text-field
-                        label="Regular"
-                        outlined
-                        type='number'
-                    ></v-text-field>
-                    <v-text-field
-                        label="Regular"
-                        outlined
-                        type='number'
-                    ></v-text-field>
+                    <span @click='plot()'>
+                        <v-color-picker
+                        v-model="color"
+                        dot-size="23"
+                        hide-canvas
+                        hide-inputs
+                        hide-sliders
+                        show-swatches
+                        swatches-max-height="188"
+                      ></v-color-picker>
+                    </span>
                 </v-col>
                 <v-col cols='8'>
-
-                    <section id="plot">
-                        <div id="myFunction"></div>
-                        </section>
-
+                  <v-row justify='center' align='center' no-gutters dense>
+                    <v-col cols='auto'>
+                      <v-switch
+                        class="ma-0"
+                        v-model="show_grade"
+                        label="Show gride"
+                        @click='plot()'
+                      ></v-switch>
+                    </v-col>
+                  </v-row>
+                  <v-row justify='center' align='center' no-gutters dense>
+                    <v-col cols='auto' id="plot">
+                        <span id="myFunction"></span>
+                    </v-col>
+                  </v-row>
                 </v-col>
             </v-row>
+          </v-card-text>
+        </v-card>
             
         </v-container>
       </v-main>
@@ -65,48 +113,61 @@
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
     new Vue({
       el: '#app',
       data: function () {
             return {
-                xMin: -5,
+                states: {},
+                xMin: -6,
                 xMax: 6,
-                yMin: -5,
+                yMin: -6,
                 yMax: 6,
-                color: 'black',
+                color: null,
+                show_grade: true,
+                equoation: '',
                 parameters: {
                     target: '#myFunction',
                     data: [{
-                        fn: 'x ^ 2', 
-                        color: 'red'
+                        fn: '',
                     }],
-                    grid: true,
-                    yAxis: {domain: [-1, 1]},
+                    yAxis: {domain: [0, 2*Math.PI]},
                     xAxis: {domain: [0, 2*Math.PI]}
                 },
          }
         },                  
       mounted (){
+        axios.get('http://localhost:8080/states').then(res => {
+          this.states = res.data
+          console.log(res.data.graph_hand.split('='));
+          const temp = res.data.graph_hand.toLowerCase()
+          const equoation = temp.split('=')[0]
+          this.init(equoation)
+        })
         this.plot()
       },
       methods: {
-            plot() {
-                var f = this.parameters.data.fn
-                var xMin = this.xMin
-                var xMax = this.xMax
-                var yMin = this.yMin
-                var yMax = this.yMax
-                var color = this.parameters.data.color
-                
-                this.parameters.data[0].fn = 'x ^ 2';
-                this.parameters.xAxis.domain = [this.xMin, this.xMax];
-                this.parameters.yAxis.domain = [this.yMin, this.yMax];
-                this.color = this.color;
-                
-                functionPlot(this.parameters)
-            },
+        init(eq){
+          console.log('->', eq);
+          this.equoation = eq
         },
+        plot() {
+            var xMin = this.xMin
+            var xMax = this.xMax
+            var yMin = this.yMin
+            var yMax = this.yMax
+            var color = this.color.hexa
+            
+            this.parameters.data[0].fn = `${this.equoation}`;
+            this.parameters.grid = this.show_grade;
+            this.parameters.xAxis.domain = [this.xMin, this.xMax];
+            this.parameters.yAxis.domain = [this.yMin, this.yMax];
+            this.parameters.data[0].color = this.color.hexa;
+            
+            functionPlot(this.parameters)
+        },
+      },
       vuetify: new Vuetify(),
     })
   </script>

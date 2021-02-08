@@ -24,10 +24,13 @@ function discriminant(states)
 }
 
 function NumberComlpexPrint(reel, imaginary) {
-    if(reel && imaginary)
+    if(reel && imaginary){
         console.log(`x1 = ${reel} + ${imaginary > 0 ? imaginary : imaginary * -1} i\nx2 = ${reel} - ${imaginary > 0 ? imaginary : imaginary * -1} i`);
-     else if(!reel && imaginary)
+        states.solution = `x1 = ${reel} + ${imaginary > 0 ? imaginary : imaginary * -1} i\nx2 = ${reel} - ${imaginary > 0 ? imaginary : imaginary * -1} i`
+    }else if(!reel && imaginary){
          console.log(`x1 = ${imaginary} i\nx2 = - ${imaginary > 0 ? imaginary : imaginary * -1} i`);
+         states.solution = `x1 = ${imaginary} i   |   x2 = - ${imaginary > 0 ? imaginary : imaginary * -1} i`
+    }
 }
 
 function QuadraticForm(states)
@@ -41,6 +44,7 @@ function QuadraticForm(states)
             console.log(chalk.underline("one solution:"));
             const x = (b * -1) / (2 * a);
             console.log(`solution : x = ${x}`);
+            states.solution = `solution : x = ${x}`
         }
         else if (states.discriminant > 0)
         {
@@ -48,6 +52,7 @@ function QuadraticForm(states)
             const x1 = ((b * -1) + (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
             const x2 = ((b * -1) - (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
             console.log(`x1 = ${x1}\nx2 = ${x2}`);
+            states.solution = `x1 = ${x1}   |   x2 = ${x2}`
         }
         else if (states.discriminant < 0)
         {
@@ -60,6 +65,7 @@ function QuadraticForm(states)
     else if (states.polynomial_degree == 1){
         console.log(chalk.underline('The solution is :'));
         console.log(`x = ${-c / b}`);
+        states.solution = `x = ${-c / b}`
     }
 }
 

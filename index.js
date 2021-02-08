@@ -1,6 +1,9 @@
-const chalk = require('chalk');
+const chalk = require('chalk')
 const tools = require('./tools')
 const solve = require('./solve')
+const graph = require('./graph')
+
+const PORT=8080; 
 
 var args = process.argv.slice(2);
 
@@ -15,9 +18,11 @@ var states = {
     sign: false,
     equoal: false,
     eq_params: [0,0,0],
+    graph_hand: null, 
     discriminant: null,
     polynomial_degree: 0,
-    error: false
+    error: false,
+    solution: null
 }
 
 if (args.length === 1)
@@ -57,3 +62,5 @@ if (args.length === 1)
 }
 else
     console.log(chalk.yellow('error number of params, usage node . "EQOUATION"'))
+
+    graph.graph(states)
