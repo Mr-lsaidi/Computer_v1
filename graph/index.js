@@ -7,7 +7,6 @@ const app = express();
 app.use(cors({origin: '*'}));
 
 function graph(states){
-    console.log(states.graph_hand);
     app.get('/', function (req, res) {
         res.sendFile(path.join(__dirname + '/index.html'))
     });

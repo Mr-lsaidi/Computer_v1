@@ -1,9 +1,8 @@
 const chalk = require('chalk')
 const tools = require('./tools')
 const solve = require('./solve')
-const graph = require('./graph')
-
-const PORT=8080; 
+const graph = require('./graph');
+const { stat } = require('fs');
 
 var args = process.argv.slice(2);
 
@@ -22,18 +21,21 @@ var states = {
     discriminant: null,
     polynomial_degree: 0,
     error: false,
-    solution: null
+    solution: null,
+    graph: false
 }
 
-if (args.length === 1)
-{
+
+if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
+    if (args.length === 2 && args[1] === '-v')
+        states.graph = true
     if (args[0])
     {
         //remove whitespase replace theme with one space    
         let string = args[0].replace(/\s+/g, " ")
         //split the equoation
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
-        let equoation = tools.spicial_case(string, spicial_case_vals);
+        let equoation = tools.spicial_case(string, spicial_case_vals, states);
         //console.log(equoation)
         if (equoation){
             for (let i = 0; i < equoation.length && !states.error; i++) {
@@ -57,10 +59,13 @@ if (args.length === 1)
             }
         }
     }
-    else
+    else{
         console.log(chalk.red("arg is empty"))
+        states.graph = false
+    }
 }
 else
     console.log(chalk.yellow('error number of params, usage node . "EQOUATION"'))
 
+if (states.graph)
     graph.graph(states)

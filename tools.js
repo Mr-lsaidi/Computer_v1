@@ -16,7 +16,7 @@ function parsing(eq_arg){
     return eq_arg.match(/((^[\ ]?\+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?\=[\ ]?$)|(^[\ ]?X[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?$)|(^[\ ]?X[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$))/g)
 }
 
-function spicial_case(equoation, spicial_case_vals) {
+function spicial_case(equoation, spicial_case_vals, states) {
     let temp = []
     let first_ele = 0
     equoation.map(ele=>{
@@ -38,12 +38,14 @@ function spicial_case(equoation, spicial_case_vals) {
             }
             else if (temp[i + 1]  === '+'){
                 console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
+                states.graph = false
                 return
             }
         }
         else if (element[element.length - 1] === '-'){
             if (temp[i + 1]  === '-' || temp[i + 1]  === '+'){
                 console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
+                states.graph = false
                 return
             }
         }
@@ -57,6 +59,7 @@ function spicial_case(equoation, spicial_case_vals) {
         else if (element[element.length - 1] === '='){
             if (spicial_case_vals.equoal){
                 console.log(chalk.red("error double ="));
+                states.graph = false
                 return
             }
             spicial_case_vals.equoal = true
@@ -66,6 +69,7 @@ function spicial_case(equoation, spicial_case_vals) {
     }
     if (!spicial_case_vals.equoal){
         console.log(chalk.red("no = in the equoation"));
+        states.graph = false
         return
     }
     return (temp)

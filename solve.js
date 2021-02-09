@@ -8,6 +8,7 @@ function SpecialCaseSolve(states)
             console.log(chalk.red("No solution possible"));
         else
             console.log("The solution is |R");
+        states.graph = false
         return true
     }
     return false
