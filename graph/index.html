@@ -46,34 +46,34 @@
                         type='number'
                         step='0.5'
                         v-model="xMin"
-                        @click='plot()'
-                        v-on:keyup.enter='plot()'
+                        @click='plot(states.equoation)'
+                        v-on:keyup.enter='plot(states.equoation)'
                     ></v-text-field>
                     <v-text-field
                         label="xMax value"
                         outlined
                         type='number'
                         v-model="xMax"
-                        @click='plot()'
-                        v-on:keyup.enter='plot()'
+                        @click='plot(states.equoation)'
+                        v-on:keyup.enter='plot(states.equoation)'
                     ></v-text-field>
                     <v-text-field
                         label="yMin value"
                         outlined
                         type='number'
                         v-model="yMin"
-                        @click='plot()'
-                        v-on:keyup.enter='plot()'
+                        @click='plot(states.equoation)'
+                        v-on:keyup.enter='plot(states.equoation)'
                     ></v-text-field>
                     <v-text-field
                         label="yMax value"
                         outlined
                         type='number'
                         v-model="yMax"
-                        @click='plot()'
-                        v-on:keyup.enter='plot()'
+                        @click='plot(states.equoation)'
+                        v-on:keyup.enter='plot(states.equoation)'
                     ></v-text-field>
-                    <span @click='plot()'>
+                    <span @click='plot(states.equoation)'>
                         <v-color-picker
                         v-model="color"
                         dot-size="23"
@@ -92,7 +92,7 @@
                         class="ma-0"
                         v-model="show_grade"
                         label="Show gride"
-                        @click='plot()'
+                        @click='plot(states.equoation)'
                       ></v-switch>
                     </v-col>
                   </v-row>
@@ -142,24 +142,21 @@
           this.states = res.data
           console.log(res.data.graph_hand.split('='));
           const temp = res.data.graph_hand.toLowerCase()
-          const equoation = temp.split('=')[0]
-          this.init(equoation)
+          this.states.equoation = temp.split('=')[0]
+          this.plot(this.states.equoation)
         })
-        this.plot()
+        
       },
       methods: {
-        init(eq){
-          console.log('->', eq);
-          this.equoation = eq
-        },
-        plot() {
+        plot(equoation) {
+            var f = equoation
             var xMin = this.xMin
             var xMax = this.xMax
             var yMin = this.yMin
             var yMax = this.yMax
             var color = this.color.hexa
             
-            this.parameters.data[0].fn = `${this.equoation}`;
+            this.parameters.data[0].fn = f.trim();
             this.parameters.grid = this.show_grade;
             this.parameters.xAxis.domain = [this.xMin, this.xMax];
             this.parameters.yAxis.domain = [this.yMin, this.yMax];
