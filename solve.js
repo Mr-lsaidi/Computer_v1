@@ -24,7 +24,7 @@ function discriminant(states)
     console.log(chalk.green("discriminant :"), states.discriminant)
 }
 
-function NumberComlpexPrint(reel, imaginary) {
+function NumberComlpexPrint(reel, imaginary, states) {
     if(reel && imaginary){
         console.log(`x1 = ${reel} + ${imaginary > 0 ? imaginary : imaginary * -1} i\nx2 = ${reel} - ${imaginary > 0 ? imaginary : imaginary * -1} i`);
         states.solution = `x1 = ${reel} + ${imaginary > 0 ? imaginary : imaginary * -1} i\nx2 = ${reel} - ${imaginary > 0 ? imaginary : imaginary * -1} i`
@@ -60,7 +60,7 @@ function QuadraticForm(states)
             console.log(chalk.underline("Solution is complex :"));
             const reel = (-b / (2 * a));
             const complex = (Math.sqrt(Math.abs(states.discriminant))) / (2 * a);
-            NumberComlpexPrint(reel, complex);
+            NumberComlpexPrint(reel, complex, states);
         }
     }
     else if (states.polynomial_degree == 1){

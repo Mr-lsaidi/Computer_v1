@@ -120,14 +120,16 @@
       data: function () {
             return {
                 states: {},
-                xMin: -6,
-                xMax: 6,
+                xMin: -5,
+                xMax: 6.28,
                 yMin: -6,
                 yMax: 6,
                 color: null,
                 show_grade: true,
                 equoation: '',
                 parameters: {
+                    width: 700,
+                    height: 500,
                     target: '#myFunction',
                     data: [{
                         fn: '',
@@ -156,6 +158,7 @@
             var yMax = this.yMax
             var color = this.color.hexa
             
+            this.parameters.title = this.states.graph_hand
             this.parameters.data[0].fn = f.trim();
             this.parameters.grid = this.show_grade;
             this.parameters.xAxis.domain = [this.xMin, this.xMax];

@@ -36,7 +36,6 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
         //split the equoation
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
         let equoation = tools.spicial_case(string, spicial_case_vals, states);
-        //console.log(equoation)
         if (equoation){
             for (let i = 0; i < equoation.length && !states.error; i++) {
                 const element = equoation[i]
@@ -47,6 +46,11 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
                     console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
                     return
                 }
+            }
+            if (equoation[equoation.length - 1].match(/(^[\ ]?\+[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?\=[\ ]?$)/g)){
+                states.error = true
+                console.error(chalk.red('syntax error in equoation arg: '), "'"+equoation[equoation.length - 1].trim()+"'");
+                return
             }
             if (!states.error){
                 tools.GetEqElements('last', states)
