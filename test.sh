@@ -75,6 +75,10 @@ echo -e "2 * X ^ 2 + 6 * X + 1 = 0 :" ;
 node index.js "2 * X ^ 2 + 6 * X + 1 = 0";
 echo "";
 
+echo -e "X ^ 2 - 2 * 2 - 3 = 0 :" ;
+node index.js "X ^ 2 - 2 * 2 - 3 = 0";
+echo "";
+
 ### Title
 echo -e "${INFOS}Degree 2: # Delta == 0: ${NC}"; echo "";
 # Delta == 0
@@ -90,10 +94,24 @@ echo -e "3 * X ^ 2 + 6 * X + 3 = 0 :" ;
 node index.js "3 * X ^ 2 + 6 * X + 3 = 0";
 echo "";
 
+
+echo -e "9*X^2 + 12*X + 4 = 0 :" ;
+node index.js "9*X^2 + 12*X + 4 = 0";
+echo "";
+
+
 ### Title
 echo -e "${INFOS}Degree 2: # Delta < 0: ${NC}"; echo "";
 # Delta < 0
 
+
+echo -e "X ^ 2 + 3*X + 3 = 0 :" ;
+node index.js "X ^ 2 + 3*X + 3 = 0";
+echo "";
+
+echo -e " 3*X^2 + 4*X + 2 = 0 :" ;
+node index.js "3*X^2 + 4*X + 2 = 0";
+echo "";
 
 ##### Incorrect input with good formatting #####
 echo -e "${ORANGE}INCORRECT INPUT WITH GOOD FORMATTING${NC}"; echo "";

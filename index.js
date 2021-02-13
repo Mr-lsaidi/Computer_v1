@@ -2,7 +2,6 @@ const chalk = require('chalk')
 const tools = require('./tools')
 const solve = require('./solve')
 const graph = require('./graph');
-const { stat } = require('fs');
 
 var args = process.argv.slice(2);
 
