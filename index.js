@@ -24,7 +24,6 @@ var states = {
     graph: false
 }
 
-
 if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
     if (args.length === 2 && args[1] === '-v')
         states.graph = true

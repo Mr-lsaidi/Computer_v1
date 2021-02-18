@@ -1,5 +1,31 @@
 const chalk = require("chalk")
 
+function ABS(val)
+{
+    if (val < 0)
+        val = -val;
+    return val;
+}
+
+function squareRoot(n) {
+    if (!(typeof n === 'number' && n >= 0 && !isNaN(n))) {
+      return NaN;
+    } else if (n === 0) {
+      return 0;
+    } else if (n === Infinity) {
+      return Infinity;
+    }
+    var val = n;
+    while(true) {
+      var last = val;
+      val = (val + (n / val)) * 0.5;
+      if (ABS(val - last) < 1e-9) {
+        break;
+      }
+    }
+    return val;
+}
+
 function parsing(eq_arg){
 
     //((^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)    =>   (X ^ 1)
@@ -168,4 +194,6 @@ module.exports = {
     spicial_case,
     GetEqElements,
     Reduced,
+    squareRoot,
+    ABS
 }

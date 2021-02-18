@@ -1,4 +1,5 @@
 const chalk = require("chalk");
+const tools = require('./tools')
 
 function SpecialCaseSolve(states)
 {
@@ -20,8 +21,9 @@ function discriminant(states)
     const b = states.eq_params[1]
     const c = states.eq_params[0]
     console.log(`a: ${a} b: ${b} c: ${c}`)
-    states.discriminant = (Math.abs(b * b)) - (4 * a * c)
-    console.log(chalk.green("discriminant :"), states.discriminant)
+    states.discriminant = (tools.ABS(b * b)) - (4 * a * c)
+    if (states.polynomial_degree == 2)
+        console.log(chalk.green("discriminant :"), states.discriminant)
 }
 
 function NumberComlpexPrint(reel, imaginary, states) {
@@ -50,8 +52,8 @@ function QuadraticForm(states)
         else if (states.discriminant > 0)
         {
             console.log(chalk.underline("Solution is reel :"));
-            const x1 = ((b * -1) + (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
-            const x2 = ((b * -1) - (Math.sqrt(Math.abs(states.discriminant)))) / (2 * a);
+            const x1 = ((b * -1) + (tools.squareRoot(tools.ABS(states.discriminant)))) / (2 * a);
+            const x2 = ((b * -1) - (tools.squareRoot(tools.ABS(states.discriminant)))) / (2 * a);
             console.log(`x1 = ${x1}\nx2 = ${x2}`);
             states.solution = `x1 = ${x1}   |   x2 = ${x2}`
         }
@@ -59,7 +61,7 @@ function QuadraticForm(states)
         {
             console.log(chalk.underline("Solution is complex :"));
             const reel = (-b / (2 * a));
-            const complex = (Math.sqrt(Math.abs(states.discriminant))) / (2 * a);
+            const complex = (tools.squareRoot(tools.ABS(states.discriminant))) / (2 * a);
             NumberComlpexPrint(reel, complex, states);
         }
     }
