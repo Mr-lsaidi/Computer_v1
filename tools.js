@@ -154,7 +154,7 @@ function Reduced(states){
         Reduced_form.push(`${states.eq_params[1]} * X^1`)
     }
     if (states.eq_params[2] != 0){
-        if (states.eq_params[2] >= 0 && states.eq_params[2] != 0)
+        if (states.eq_params[2] >= 0 && states.eq_params[1] != 0)
             Reduced_form.push('+')
         Reduced_form.push(`${states.eq_params[2]} * X^2`)
     }
