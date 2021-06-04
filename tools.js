@@ -160,7 +160,7 @@ function GetEqElements(eq_arg, states) {
         console.log(chalk.dim("The polynomial degree is stricly greater than 2, I can't solve."));
         states.error = true
     }
-    if (states.polynomial_degree < states.degree)
+    if (states.polynomial_degree < states.degree && states.factor)
         states.polynomial_degree = states.degree
 }
 
