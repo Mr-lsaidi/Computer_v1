@@ -40,14 +40,14 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
                 if (tools.parsing(element)){
                    tools.GetEqElements(element, states)
                 }
-                else{
-                    console.error(chalk.red('syntax error in equation arg: '), "'"+element.trim()+"'");
+                else {
+                    console.error(chalk.red('syntax error in equation arg: '), "'"+element+"'");
                     return
                 }
             }
             if (equation[equation.length - 1].match(/(^[\ ]?\+[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?\=[\ ]?$)/g)){
                 states.error = true
-                console.error(chalk.red('syntax error in equation arg: '), "'"+equation[equation.length - 1].trim()+"'");
+                console.error(chalk.red('syntax error in equation arg: '), "'"+equation[equation.length - 1]+"'");
                 return
             }
             if (!states.error){

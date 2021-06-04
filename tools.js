@@ -27,7 +27,7 @@ function squareRoot(n) {
 }
 
 function parsing(eq_arg){
-    return eq_arg.match(/((^[\ ]?\+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?\=[\ ]?$)|(^[\ ]?X[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?$)|(^[\ ]?X[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$))/g)
+    return eq_arg.match(/((^[\ ]?\+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?\=[\ ]?$)|(^[\ ]?[-]?X[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?[-]?X[\ ]?$)|(^[\ ]?[-]?X[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$))/g)
 }
 
 function spicial_case(equation, spicial_case_vals, states) {
@@ -50,14 +50,14 @@ function spicial_case(equation, spicial_case_vals, states) {
                 temp[i + 2] = temp[i + 1] + temp[i + 2]
                 temp.splice(i + 1, 1)
             }
-            else if (temp[i + 1]  === '+'){
+            else if (temp[i + 1]  === '+' || temp[i + 1]  === '+'){
                 console.error(chalk.red('syntax error in equation arg1: '), "'"+element+"'");
                 states.graph = false
                 return
             }
         }
         else if (element[element.length - 1] === '-'){
-            if (temp[i + 1]  === '-' || temp[i + 1]  === '+'){
+            if (temp[i + 1]  === '-' || temp[i + 1]  === '+' || temp[i + 1]  === '='){
                 console.error(chalk.red('syntax error in equation arg2: '), "'"+element+"'");
                 states.graph = false
                 return
@@ -110,18 +110,25 @@ function GetEqElements(eq_arg, states) {
         states.factor = 1
         states.degree = parseInt(rgx_result[1])
     }
-    else if (eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?X[\ ]?$/g)){
-        const rgx_result = eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?X[\ ]?$/);
+    else if (eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?[-]?X[\ ]?$/g)){
+        const rgx_result = eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?([-]?)X[\ ]?$/);
+        // console.log(rgx_result);
         states.factor = parseFloat(rgx_result[1])
+        states.sign = rgx_result[2] ? true : false
         states.degree = 1
     }
-    else if (eq_arg.match(/^[\ ]?X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/g)){
-        const rgx_result = eq_arg.match(/^[\ ]?X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/);
-        states.factor = parseFloat(rgx_result[1])
+    else if (eq_arg.match(/^[\ ]?([-]?)X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/g)){
+        const rgx_result = eq_arg.match(/^[\ ]?([-]?)X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/);
+        // console.log(rgx_result);
+        states.factor = parseFloat(rgx_result[2])
+        states.sign = rgx_result[1] ? true : false
         states.degree = 1
     }
-    else if (eq_arg.match(/^[\ ]?X[\ ]?$/g)){
+    else if (eq_arg.match(/^[\ ]?([-]?)X[\ ]?$/g)){
+        const rgx_result = eq_arg.match(/^[\ ]?([-]?)X[\ ]?$/);
+        // console.log(rgx_result);
         states.factor = 1
+        states.sign = rgx_result[1] ? true : false
         states.degree = 1
     }
     else if (eq_arg.match(/^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$/g)){
