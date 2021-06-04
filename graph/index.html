@@ -46,34 +46,34 @@
                         type='number'
                         step='0.5'
                         v-model="xMin"
-                        @click='plot(states.equoation)'
-                        v-on:keyup.enter='plot(states.equoation)'
+                        @click='plot(states.equation)'
+                        v-on:keyup.enter='plot(states.equation)'
                     ></v-text-field>
                     <v-text-field
                         label="xMax value"
                         outlined
                         type='number'
                         v-model="xMax"
-                        @click='plot(states.equoation)'
-                        v-on:keyup.enter='plot(states.equoation)'
+                        @click='plot(states.equation)'
+                        v-on:keyup.enter='plot(states.equation)'
                     ></v-text-field>
                     <v-text-field
                         label="yMin value"
                         outlined
                         type='number'
                         v-model="yMin"
-                        @click='plot(states.equoation)'
-                        v-on:keyup.enter='plot(states.equoation)'
+                        @click='plot(states.equation)'
+                        v-on:keyup.enter='plot(states.equation)'
                     ></v-text-field>
                     <v-text-field
                         label="yMax value"
                         outlined
                         type='number'
                         v-model="yMax"
-                        @click='plot(states.equoation)'
-                        v-on:keyup.enter='plot(states.equoation)'
+                        @click='plot(states.equation)'
+                        v-on:keyup.enter='plot(states.equation)'
                     ></v-text-field>
-                    <span @click='plot(states.equoation)'>
+                    <span @click='init(states.equation)'>
                         <v-color-picker
                         v-model="color"
                         dot-size="23"
@@ -92,7 +92,7 @@
                         class="ma-0"
                         v-model="show_grade"
                         label="Show gride"
-                        @click='plot(states.equoation)'
+                        @click='init(states.equation)'
                       ></v-switch>
                     </v-col>
                   </v-row>
@@ -120,13 +120,13 @@
       data: function () {
             return {
                 states: {},
-                xMin: -5,
-                xMax: 6.28,
-                yMin: -6,
-                yMax: 6,
+                xMin: undefined,
+                xMax:  undefined,
+                yMin: undefined,
+                yMax:  undefined,
                 color: null,
                 show_grade: true,
-                equoation: '',
+                equation: '',
                 parameters: {
                     width: 700,
                     height: 500,
@@ -138,20 +138,35 @@
                     xAxis: {domain: [0, 2*Math.PI]}
                 },
          }
-        },                  
+        },    
+        created(){
+          this.xMin =  -436.3140057740858
+          this.xMax =  597.9266351836828
+          this.yMin =   -618.1003167508387
+          this.yMax =  398.35240163517466
+        },             
       mounted (){
         axios.get('http://localhost:8080/states').then(res => {
           this.states = res.data
           console.log(res.data.graph_hand.split('='));
           const temp = res.data.graph_hand.toLowerCase()
-          this.states.equoation = temp.split('=')[0]
-          this.plot(this.states.equoation)
+          this.states.equation = temp.split('=')[0]
+          this.plot(this.states.equation)
         })
         
       },
       methods: {
-        plot(equoation) {
-            var f = equoation
+        init(equation){
+
+          this.xMin = this.parameters.xAxis.domain[0]
+          this.xMax = this.parameters.xAxis.domain[1]
+          this.yMin = this.parameters.yAxis.domain[0]
+          this.yMax = this.parameters.yAxis.domain[1]
+  
+          this.plot(equation)
+        },
+        plot(equation) {
+            var f = equation
             var xMin = this.xMin
             var xMax = this.xMax
             var yMin = this.yMin

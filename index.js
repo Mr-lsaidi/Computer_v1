@@ -29,25 +29,25 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
         states.graph = true
     if (args[0])
     {
-        //remove whitespase replace theme with one space    
-        let string = args[0].replace(/\s+/g, " ")
-        //split the equoation
+        
+        let string = args[0].replace(/\s+/g, "")
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
-        let equoation = tools.spicial_case(string, spicial_case_vals, states);
-        if (equoation){
-            for (let i = 0; i < equoation.length && !states.error; i++) {
-                const element = equoation[i]
+
+        let equation = tools.spicial_case(string, spicial_case_vals, states);
+        if (equation){
+            for (let i = 0; i < equation.length && !states.error; i++) {
+                const element = equation[i]
                 if (tools.parsing(element)){
                    tools.GetEqElements(element, states)
                 }
                 else{
-                    console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
+                    console.error(chalk.red('syntax error in equation arg: '), "'"+element.trim()+"'");
                     return
                 }
             }
-            if (equoation[equoation.length - 1].match(/(^[\ ]?\+[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?\=[\ ]?$)/g)){
+            if (equation[equation.length - 1].match(/(^[\ ]?\+[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?\=[\ ]?$)/g)){
                 states.error = true
-                console.error(chalk.red('syntax error in equoation arg: '), "'"+equoation[equoation.length - 1].trim()+"'");
+                console.error(chalk.red('syntax error in equation arg: '), "'"+equation[equation.length - 1].trim()+"'");
                 return
             }
             if (!states.error){

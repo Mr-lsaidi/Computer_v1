@@ -27,30 +27,18 @@ function squareRoot(n) {
 }
 
 function parsing(eq_arg){
-
-    //((^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)    =>   (X ^ 1)
-    //|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)  ==> (1 * X ^1)
-    //|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)  ==> (X ^ 1 * 1)
-    //|(^[\ ]?\+[\ ]?$)  ==> (+)
-    //|(^[\ ]?\=[\ ]?$)  ==> (=)
-    //|(^[\ ]?\-[\ ]?$)  ==> (-)
-    //|(^[\ ]?X[\ ]?$)   ==> (X)
-    //|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?$)  ==> (1 * X)
-    //|(^[\ ]?X[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)  ==> (X * 1)
-    //|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$))  ===> (1)
-
     return eq_arg.match(/((^[\ ]?\+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?\=[\ ]?$)|(^[\ ]?X[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?$)|(^[\ ]?X[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$))/g)
 }
 
-function spicial_case(equoation, spicial_case_vals, states) {
+function spicial_case(equation, spicial_case_vals, states) {
     let temp = []
     let first_ele = 0
-    equoation.map(ele=>{
+    equation.map(ele=>{
         if (ele !== " ")
             temp.push(ele)
     })
     for (let i = 0; i < temp.length; i++) {
-        const element = temp[i].trim(); 
+        const element = temp[i]; 
         if (element[element.length - 1] === '-' && !spicial_case_vals.FirstNegativeEq && i === first_ele){
             spicial_case_vals.FirstNegativeEq = true
             temp[i + 1] = temp[i] + temp[i + 1]
@@ -63,14 +51,14 @@ function spicial_case(equoation, spicial_case_vals, states) {
                 temp.splice(i + 1, 1)
             }
             else if (temp[i + 1]  === '+'){
-                console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
+                console.error(chalk.red('syntax error in equation arg1: '), "'"+element+"'");
                 states.graph = false
                 return
             }
         }
         else if (element[element.length - 1] === '-'){
             if (temp[i + 1]  === '-' || temp[i + 1]  === '+'){
-                console.error(chalk.red('syntax error in equoation arg: '), "'"+element.trim()+"'");
+                console.error(chalk.red('syntax error in equation arg2: '), "'"+element+"'");
                 states.graph = false
                 return
             }
@@ -83,6 +71,11 @@ function spicial_case(equoation, spicial_case_vals, states) {
             }
         }
         else if (element[element.length - 1] === '='){
+            if (temp[i + 1]  === '+'){
+                console.error(chalk.red('syntax error in equation arg3: '), "'"+element+"'");
+                states.graph = false
+                return
+            }
             if (spicial_case_vals.equoal){
                 console.log(chalk.red("error double ="));
                 states.graph = false
@@ -94,7 +87,7 @@ function spicial_case(equoation, spicial_case_vals, states) {
         }
     }
     if (!spicial_case_vals.equoal){
-        console.log(chalk.red("no = in the equoation"));
+        console.log(chalk.red("no = in the equation"));
         states.graph = false
         return
     }
@@ -128,7 +121,6 @@ function GetEqElements(eq_arg, states) {
         states.degree = 1
     }
     else if (eq_arg.match(/^[\ ]?X[\ ]?$/g)){
-        const rgx_result = eq_arg.match(/^[\ ]?X[\ ]?$/);
         states.factor = 1
         states.degree = 1
     }
@@ -137,30 +129,26 @@ function GetEqElements(eq_arg, states) {
         states.factor = parseFloat(rgx_result[0])
         states.degree = 0
     }
-    else if (eq_arg.match(/^[\ ]?\+[\ ]?$/g)){
-        const rgx_result = eq_arg.match(/^[\ ]?\+[\ ]?$/);        
+    else if (eq_arg.match(/^[\ ]?\+[\ ]?$/g)){      
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1) * (states.equoal ? -1 : 1)
         states.sign = false
-       // console.log('+', states);
     }
     else if (eq_arg.match(/^[\ ]?\=[\ ]?$/g)){
         states.equoal = true
-        const rgx_result = eq_arg.match(/^[\ ]?\=[\ ]?$/);
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)
         states.sign = false
-        //console.log('=',states);
     }
     else if (eq_arg.match(/^[\ ]?\-[\ ]?$/g)){
-        const rgx_result = eq_arg.match(/^[\ ]?\-[\ ]?$/);
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
         states.sign = true
-        //console.log('-', states);
     }
     else if (eq_arg.match(/^last$/g)){
         states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
     }
-    else
-        console.log("out");
+    else {
+        console.log("option out error");
+        states.error = true
+    }
     if (states.degree > 2){
         console.log(chalk.dim("The polynomial degree is stricly greater than 2, I can't solve."));
         states.error = true
