@@ -41,7 +41,7 @@ function QuadraticForm(states)
     const a = states.eq_params[2]
     const b = states.eq_params[1]
     const c = states.eq_params[0]
-    if (states.polynomial_degree == 2){
+    if (states.eq_params[2]){
         if (states.discriminant == 0)
         {
             console.log(chalk.underline("one solution:"));
@@ -65,7 +65,7 @@ function QuadraticForm(states)
             NumberComlpexPrint(reel, complex, states);
         }
     }
-    else if (states.polynomial_degree == 1){
+    else if (states.eq_params[1]){
         console.log(chalk.underline('The solution is :'));
         console.log(`x = ${-c / b}`);
         states.solution = `x = ${-c / b}`

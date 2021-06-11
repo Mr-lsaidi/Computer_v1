@@ -51,14 +51,14 @@ function spicial_case(equation, spicial_case_vals, states) {
                 temp.splice(i + 1, 1)
             }
             else if (temp[i + 1]  === '+' || temp[i + 1]  === '+'){
-                console.error(chalk.red('syntax error in equation arg1: '), "'"+element+"'");
+                console.error(chalk.red('syntax error in equation arg: '), "'"+element+"'");
                 states.graph = false
                 return
             }
         }
         else if (element[element.length - 1] === '-'){
             if (temp[i + 1]  === '-' || temp[i + 1]  === '+' || temp[i + 1]  === '='){
-                console.error(chalk.red('syntax error in equation arg2: '), "'"+element+"'");
+                console.error(chalk.red('syntax error in equation arg: '), "'"+element+"'");
                 states.graph = false
                 return
             }
@@ -72,7 +72,7 @@ function spicial_case(equation, spicial_case_vals, states) {
         }
         else if (element[element.length - 1] === '='){
             if (temp[i + 1]  === '+'){
-                console.error(chalk.red('syntax error in equation arg3: '), "'"+element+"'");
+                console.error(chalk.red('syntax error in equation arg: '), "'"+element+"'");
                 states.graph = false
                 return
             }
@@ -128,7 +128,8 @@ function GetEqElements(eq_arg, states) {
         const rgx_result = eq_arg.match(/^[\ ]?([-]?)X[\ ]?$/);
         // console.log(rgx_result);
         states.factor = 1
-        states.sign = rgx_result[1] ? true : false
+        if (!states.sign)
+            states.sign = rgx_result[1] ? true : false
         states.degree = 1
     }
     else if (eq_arg.match(/^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$/g)){
