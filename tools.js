@@ -114,14 +114,16 @@ function GetEqElements(eq_arg, states) {
         const rgx_result = eq_arg.match(/^[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?\*[\ ]?([-]?)X[\ ]?$/);
         // console.log(rgx_result);
         states.factor = parseFloat(rgx_result[1])
-        states.sign = rgx_result[2] ? true : false
+        if (!states.sign)
+            states.sign = rgx_result[2] ? true : false
         states.degree = 1
     }
     else if (eq_arg.match(/^[\ ]?([-]?)X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/g)){
         const rgx_result = eq_arg.match(/^[\ ]?([-]?)X[\ ]?\*[\ ]?([-]?[0-9]*\.?[0-9]+)[\ ]?$/);
         // console.log(rgx_result);
         states.factor = parseFloat(rgx_result[2])
-        states.sign = rgx_result[1] ? true : false
+        if (!states.sign)
+            states.sign = rgx_result[1] ? true : false
         states.degree = 1
     }
     else if (eq_arg.match(/^[\ ]?([-]?)X[\ ]?$/g)){
@@ -163,6 +165,8 @@ function GetEqElements(eq_arg, states) {
     }
     if (states.polynomial_degree < states.degree && states.factor)
         states.polynomial_degree = states.degree
+
+    // console.log(eq_arg , states);
 }
 
 function Reduced(states){
