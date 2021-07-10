@@ -5,7 +5,7 @@ const graph = require('./graph');
 
 var args = process.argv.slice(2);
 
-var spicial_case_vals = {
+var special_case_vals = {
     equoal: false,
     FirstNegativeEq: false,
 }
@@ -15,7 +15,7 @@ var states = {
     degree: 0,
     sign: false,
     equoal: false,
-    eq_params: [0,0,0],
+    eq_params: {0 : 0, 1: 0, 2: 0},
     graph_hand: null, 
     discriminant: null,
     polynomial_degree: 0,
@@ -33,7 +33,7 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
         let string = args[0].replace(/\s+/g, "")
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
 
-        let equation = tools.spicial_case(string, spicial_case_vals, states);
+        let equation = tools.special_case(string, special_case_vals, states);
         // console.log(equation);
         if (equation){
             for (let i = 0; i < equation.length && !states.error; i++) {
@@ -53,11 +53,17 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
             }
             if (!states.error){
                 tools.GetEqElements('last', states)
-                if (!solve.SpecialCaseSolve(states)){
-                    tools.Reduced(states)
-                    console.log(chalk.magenta("Polynomial degree:"), states.polynomial_degree);
-                    solve.discriminant(states)
-                    solve.QuadraticForm(states)
+                tools.check_polynomial_degree(states)
+                tools.Reduced(states)
+                console.log(chalk.magenta("Polynomial degree:"), states.polynomial_degree);
+                if (parseInt(Object.keys(states.eq_params)[Object.keys(states.eq_params).length - 1]) > 2){
+                    console.log(chalk.dim("The polynomial degree is stricly greater than 2, I can't solve."));
+                    states.graph = false
+                }
+                else if (!solve.SpecialCaseSolve(states)){
+                        solve.discriminant(states)
+                        solve.QuadraticForm(states)
+                
                 }
             }
         }

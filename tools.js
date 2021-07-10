@@ -30,13 +30,14 @@ function parsing(eq_arg){
     return eq_arg.match(/((^[\ ]?\+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?\=[\ ]?$)|(^[\ ]?X[\ ]?$)|(^[\ ]?\-[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?$)|(^[\ ]?X[\ ]?\^[\ ]?\d+[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$)|(^[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?\*[\ ]?X[\ ]?$)|(^[\ ]?X[\ ]?\*[\ ]?[-]?[0-9]*\.?[0-9]+[\ ]?$))/g)
 }
 
-function spicial_case(equation, spicial_case_vals, states) {
+function special_case(equation, special_case_vals, states) {
     let temp = []
     let first_ele = 0
-    equation.map(ele=>{
-        if (ele !== " ")
-            temp.push(ele)
-    })
+    if (equation)
+        equation.map(ele=>{
+            if (ele !== " ")
+                temp.push(ele)
+        })
     // console.log(temp);
     if(temp[0] && temp[0] === "="){
         console.log("equation start with '='");
@@ -55,8 +56,8 @@ function spicial_case(equation, spicial_case_vals, states) {
             states.graph = false
             return
         }
-        else if (element[element.length - 1] === '-' && !spicial_case_vals.FirstNegativeEq && i === first_ele){
-            spicial_case_vals.FirstNegativeEq = true
+        else if (element[element.length - 1] === '-' && !special_case_vals.FirstNegativeEq && i === first_ele){
+            special_case_vals.FirstNegativeEq = true
             temp[i + 1] = temp[i] + temp[i + 1]
             temp.splice(i , 1)
             first_ele = -1
@@ -92,17 +93,17 @@ function spicial_case(equation, spicial_case_vals, states) {
                 states.graph = false
                 return
             }
-            if (spicial_case_vals.equoal){
+            if (special_case_vals.equoal){
                 console.log(chalk.red("error double ="));
                 states.graph = false
                 return
             }
-            spicial_case_vals.equoal = true
-            spicial_case_vals.FirstNegativeEq = false
+            special_case_vals.equoal = true
+            special_case_vals.FirstNegativeEq = false
             first_ele = i + 1
         }
     }
-    if (!spicial_case_vals.equoal){
+    if (!special_case_vals.equoal){
         console.log(chalk.red("no = in the equation"));
         states.graph = false
         return
@@ -146,48 +147,80 @@ function GetEqElements(eq_arg, states) {
         states.degree = 0
     }
     else if (eq_arg.match(/^[\ ]?\+[\ ]?$/g)){      
-        states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1) * (states.equoal ? -1 : 1)
+        let oldVal = states.eq_params[`${states.degree}`]
+        if (!oldVal)
+            oldVal = 0
+        states.eq_params[`${states.degree}`] = oldVal + states.factor * (states.sign ? -1 : 1) * (states.equoal ? -1 : 1)
         states.sign = false
     }
     else if (eq_arg.match(/^[\ ]?\=[\ ]?$/g)){
+        let oldVal = states.eq_params[`${states.degree}`]
+        if (!oldVal)
+            oldVal = 0
         states.equoal = true
-        states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)
+        states.eq_params[`${states.degree}`] = oldVal + states.factor * (states.sign ? -1 : 1)
         states.sign = false
     }
     else if (eq_arg.match(/^[\ ]?\-[\ ]?$/g)){
-        states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
+        let oldVal = states.eq_params[`${states.degree}`]
+        if (!oldVal)
+            oldVal = 0
+        states.eq_params[`${states.degree}`] = oldVal + states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
         states.sign = true
     }
     else if (eq_arg.match(/^last$/g)){
-        states.eq_params[states.degree] += states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
+        let oldVal = states.eq_params[`${states.degree}`]
+        if (!oldVal)
+            oldVal = 0
+        states.eq_params[`${states.degree}`] = oldVal + states.factor * (states.sign ? -1 : 1)  * (states.equoal ? -1 : 1)
     }
     else {
         console.log("option out error");
         states.error = true
     }
-    if (states.degree > 2){
-        console.log(chalk.dim("The polynomial degree is stricly greater than 2, I can't solve."));
-        states.error = true
-    }
+    // if (states.degree > 2){
+    //     console.log(chalk.dim("The polynomial degree is stricly greater than 2, I can't solve."));
+    //     states.error = true
+    // }
     if (states.polynomial_degree < states.degree)
         states.polynomial_degree = states.degree
+}
+
+function check_polynomial_degree(states){
+    let max_degree = 0;
+    for (const [key, value] of Object.entries(states.eq_params)) {
+        const key_val = parseInt(key)
+        if (key_val > 2 && value === 0){
+            delete states.eq_params[`${key}`]           
+        }
+        else if (value != 0 && max_degree < key_val)
+            max_degree = key_val
+    }
+    states.polynomial_degree = max_degree
 }
 
 function Reduced(states){
     let Reduced_form = []
     Reduced_form.push(chalk.dim("Reduced form: "));
-    if (states.eq_params[0] != 0)
-        Reduced_form.push(`${states.eq_params[0]} * X^0`);
-    if (states.eq_params[1] != 0){
-        if (states.eq_params[1] >= 0 && states.eq_params[0] != 0)
+    let first_sign = false
+    for (const [key, value] of Object.entries(states.eq_params)) {
+        if (value >= 0 && first_sign)
             Reduced_form.push('+')
-        Reduced_form.push(`${states.eq_params[1]} * X^1`)
+        Reduced_form.push(`${value} * X^${key}`);
+        first_sign = true
     }
-    if (states.eq_params[2] != 0){
-        if (states.eq_params[2] >= 0 && states.eq_params[2] != 0)
-            Reduced_form.push('+')
-        Reduced_form.push(`${states.eq_params[2]} * X^2`)
-    }
+    // if (states.eq_params['0'] != 0)
+    //     Reduced_form.push(`${states.eq_params['0']} * X^0`);
+    // if (states.eq_params['1'] != 0){
+    //     if (states.eq_params[1] >= 0 && states.eq_params[0] != 0)
+    //         Reduced_form.push('+')
+    //     Reduced_form.push(`${states.eq_params['1']} * X^1`)
+    // }
+    // if (states.eq_params['2'] != 0){
+    //     if (states.eq_params['2'] >= 0 && states.eq_params['2'] != 0)
+    //         Reduced_form.push('+')
+    //     Reduced_form.push(`${states.eq_params['2']} * X^2`)
+    // }
     Reduced_form.push("= 0")
     console.log(...Reduced_form);
     states.graph_hand = Reduced_form.slice(1).join(' ')
@@ -195,9 +228,10 @@ function Reduced(states){
 
 module.exports = {
     parsing,
-    spicial_case,
+    special_case,
     GetEqElements,
     Reduced,
     squareRoot,
-    ABS
+    ABS,
+    check_polynomial_degree
 }
