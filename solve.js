@@ -3,9 +3,9 @@ const tools = require('./tools')
 
 function SpecialCaseSolve(states)
 {
-    if (states.eq_params[1] == 0 && states.eq_params[2] == 0)
+    if (!states.eq_params['1'] && !states.eq_params['2'])
     {
-        if (states.eq_params[0])
+        if (states.eq_params['0'])
             console.log(chalk.red("No solution possible"));
         else
             console.log("The solution is |R");
@@ -17,10 +17,10 @@ function SpecialCaseSolve(states)
 
 function discriminant(states)
 {
-    const a = states.eq_params[2]
-    const b = states.eq_params[1]
-    const c = states.eq_params[0]
-    console.log(`a: ${a} b: ${b} c: ${c}`)
+    const a = states.eq_params['2']
+    const b = states.eq_params['1']
+    const c = states.eq_params['0']
+    // console.log(`a: ${a} b: ${b} c: ${c}`)
     states.discriminant = (tools.ABS(b * b)) - (4 * a * c)
     if (states.polynomial_degree == 2)
         console.log(chalk.green("discriminant :"), states.discriminant)
@@ -38,10 +38,10 @@ function NumberComlpexPrint(reel, imaginary, states) {
 
 function QuadraticForm(states)
 {
-    const a = states.eq_params[2]
-    const b = states.eq_params[1]
-    const c = states.eq_params[0]
-    if (states.polynomial_degree == 2){
+    const a = states.eq_params['2']
+    const b = states.eq_params['1']
+    const c = states.eq_params['0']
+    if (states.eq_params['2']){
         if (states.discriminant == 0)
         {
             console.log(chalk.underline("one solution:"));

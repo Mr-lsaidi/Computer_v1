@@ -131,10 +131,6 @@ node index.js "-1 * X^3  = -0.2 * X^0 - 1 * X^3";
 echo "";
 
 
-echo -e "-1 * X^11  = -1 * X^11 :" ;
-node index.js "-1 * X^11  = -1 * X^11";
-echo "";
-
 echo -e "-1 * X^3  = -0.2 * X^0 - 1 * X^3 :" ;
 node index.js "-1 * X^3  = -0.2 * X^0 - 1 * X^3";
 echo "";
@@ -184,16 +180,16 @@ echo -e "1 * X^-15 + 1 * X^0 = 1 * X^-15 - 5 * X^2:" ;
 node index.js "1 * X^-15 + 1 * X^0 = 1 * X^-15 - 5 * X^2";
 echo "";
 
-
-
-
-
 ##### Successfull tests #####
 echo -e "${RED}Successfull TESTS: ${NC}"; echo "";
 
 ### Title
 echo -e "${INFOS}The solution is |R: ${NC}"; echo "";
 # The solution is |R
+
+echo -e "-1 * X^11  = -1 * X^11 :" ;
+node index.js "-1 * X^11  = -1 * X^11";
+echo "";
 
 
 echo -e "-1 * X^1  = -1 * X^1 :" ;
@@ -260,9 +256,6 @@ echo "";
 ### Title
 echo -e "${INFOS}Degree 2: # Delta == 0: ${NC}"; echo "";
 # Delta == 0
-
-
-
 
 echo -e "4*X^2 + 1 = -4*X  :" ;
 node index.js "4*X^2 + 1 = -4*X ";
