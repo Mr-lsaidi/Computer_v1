@@ -37,9 +37,25 @@ function spicial_case(equation, spicial_case_vals, states) {
         if (ele !== " ")
             temp.push(ele)
     })
+    // console.log(temp);
+    if(temp[0] && temp[0] === "="){
+        console.log("equation start with '='");
+        states.error = true
+        return
+    }
+    if(temp[0] && temp[0] === "+"){
+        console.log("equation start with '+'");
+        states.error = true
+        return
+    }
     for (let i = 0; i < temp.length; i++) {
         const element = temp[i]; 
-        if (element[element.length - 1] === '-' && !spicial_case_vals.FirstNegativeEq && i === first_ele){
+        if (temp[i] === '+' && temp[i + 1] === '-'){
+            console.error(chalk.red('syntax error in equation arg4: '), "'"+element+"'");
+            states.graph = false
+            return
+        }
+        else if (element[element.length - 1] === '-' && !spicial_case_vals.FirstNegativeEq && i === first_ele){
             spicial_case_vals.FirstNegativeEq = true
             temp[i + 1] = temp[i] + temp[i + 1]
             temp.splice(i , 1)

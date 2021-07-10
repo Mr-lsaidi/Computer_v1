@@ -34,6 +34,7 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
 
         let equation = tools.spicial_case(string, spicial_case_vals, states);
+        // console.log(equation);
         if (equation){
             for (let i = 0; i < equation.length && !states.error; i++) {
                 const element = equation[i]
