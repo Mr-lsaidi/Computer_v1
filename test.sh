@@ -9,10 +9,6 @@ NC='\033[0m' # No color
 
 
 
-
-
-
-
 ##### Wrong format errors #####
 echo -e "${RED}WRONG FORMAT ERRORS ${NC}"; echo "";
 
@@ -126,15 +122,6 @@ echo "";
 echo -e "${ORANGE}INCORRECT INPUT WITH GOOD FORMATTING${NC}"; echo "";
 
 
-echo -e "-1 * X^3  = -0.2 * X^0 - 1 * X^3 :" ;
-node index.js "-1 * X^3  = -0.2 * X^0 - 1 * X^3";
-echo "";
-
-
-echo -e "-1 * X^3  = -0.2 * X^0 - 1 * X^3 :" ;
-node index.js "-1 * X^3  = -0.2 * X^0 - 1 * X^3";
-echo "";
-
 echo -e "-1 * X^11  = 1 * X^11 :" ;
 node index.js "-1 * X^11  = 1 * X^11";
 echo "";
@@ -181,7 +168,28 @@ node index.js "1 * X^-15 + 1 * X^0 = 1 * X^-15 - 5 * X^2";
 echo "";
 
 ##### Successfull tests #####
-echo -e "${RED}Successfull TESTS: ${NC}"; echo "";
+echo -e "${GREEN}------------------------------------------------------------------------------${NC}"; echo "";
+echo -e "${GREEN}Successfull TESTS: ${NC}"; echo "";
+
+
+### Title
+echo -e "${INFOS}No solution posible: ${NC}"; echo "";
+# No solution posible
+
+
+echo -e "5 = 10 :" ;
+node index.js "5 = 10";
+echo "";
+
+echo -e "-1 * X^3  = -0.2 * X^0 - 1 * X^3 :" ;
+node index.js "-1 * X^3  = -0.2 * X^0 - 1 * X^3";
+echo "";
+
+
+echo -e "-1 * X^3  = -0.2 * X^0 - 1 * X^3 :" ;
+node index.js "-1 * X^3  = -0.2 * X^0 - 1 * X^3";
+echo "";
+
 
 ### Title
 echo -e "${INFOS}The solution is |R: ${NC}"; echo "";

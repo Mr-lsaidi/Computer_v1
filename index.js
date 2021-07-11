@@ -34,8 +34,8 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
 
         let equation = tools.special_case(string, special_case_vals, states);
-        if (equation){
-            for (let i = 0; i < equation.length && !states.error; i++) {
+        if (equation && !states.error){
+            for (let i = 0; i < equation.length; i++) {
                 const element = equation[i]
                 if (tools.parsing(element)){
                    tools.GetEqElements(element, states)
@@ -68,12 +68,12 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
         }
     }
     else{
-        console.log(chalk.red("arg is empty"))
+        console.log(chalk.yellow("arg is empty"))
         states.graph = false
     }
 }
 else
-    console.log(chalk.yellow('error number of params, usage node . "EQOUATION"'))
+    console.log(chalk.yellow('error number of params, usage node . "EQUATION"'))
 
 if (states.graph)
     graph.graph(states)

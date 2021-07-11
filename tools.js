@@ -177,8 +177,6 @@ function GetEqElements(eq_arg, states) {
         console.log("option out error");
         states.error = true
     }
-    if (states.polynomial_degree < states.degree)
-        states.polynomial_degree = states.degree
 }
 
 function check_polynomial_degree(states){
