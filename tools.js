@@ -41,11 +41,13 @@ function special_case(equation, special_case_vals, states) {
     if(temp[0] && temp[0] === "="){
         console.log("equation start with '='");
         states.error = true
+        states.graph = false
         return
     }
     if(temp[0] && temp[0] === "+"){
         console.log("equation start with '+'");
         states.error = true
+        states.graph = false
         return
     }
     for (let i = 0; i < temp.length; i++) {

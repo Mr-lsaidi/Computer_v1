@@ -29,7 +29,6 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
         states.graph = true
     if (args[0])
     {
-        
         let string = args[0].replace(/\s+/g, "")
         string = string.match(/((\=)|[+-]|[^+=-]+)/g)
 
@@ -60,9 +59,8 @@ if (args.length === 1 || (args.length === 2 && args[1] === '-v')){
                     states.graph = false
                 }
                 else if (!solve.SpecialCaseSolve(states)){
-                        solve.discriminant(states)
-                        solve.QuadraticForm(states)
-                
+                    solve.discriminant(states)
+                    solve.QuadraticForm(states)
                 }
             }
         }
